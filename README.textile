@@ -15,6 +15,11 @@ h2. Example
 @>> Springer.new('[METADATA KEY]', '[IMAGES KEY]', '[OPENACCESS KEY]', '[Referer]').search('nano fibers')@
 @=> [ #<Result:...>, ... ]@
 
+Request specific number of results, max of 100:
+
+@>> Springer.new('[METADATA KEY]', '[IMAGES KEY]', '[OPENACCESS KEY]', '[Referer]', 300).search('nano fibers').length@
+@=> 100@
+
 h2. Ownership
 
 Copyright (c) 2011, Peter Lubell-Doughtie. Licensed under the 3-clause BSD License, which is also known as the "Modified BSD License". Full text of the license is below. This license is GPL compatible (http://www.gnu.org/licenses/license-list.html#ModifiedBSD).

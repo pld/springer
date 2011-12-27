@@ -25,6 +25,16 @@ class SpringerTest < Test::Unit::TestCase
     assert_equal 'ref', rg.referer
   end
 
+  def test_set_num_results
+    rg = Springer.new('', '', '', 'ref', 100)
+    assert_equal 100, rg.num_results
+  end
+
+  def test_set_max_num_results
+    rg = Springer.new('', '', '', 'ref', 500)
+    assert_equal 100, rg.num_results
+  end
+
   # requires internet connectivity
   def test_get_search_response
     # use a valid springer key to run test

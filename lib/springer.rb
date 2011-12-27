@@ -21,14 +21,14 @@ class Springer
   API_PATH = "http://api.springer.com/metadata/json"
   API_URI = URI.parse(API_PATH)
 
-  attr_accessor :metadata_key, :images_key, :openaccess_key, :referer
+  attr_accessor :metadata_key, :images_key, :openaccess_key, :referer, :num_results
 
   def initialize(metadata_key, images_key='', openaccess_key='', referer='', num_results=50)
     @metadata_key = metadata_key
     @images_key = images_key
     @openaccess_key = openaccess_key
     @referer = referer
-    @num_results = num_results
+    @num_results = num_results < 100 ? num_results : 100
   end
   
   def search(query)
