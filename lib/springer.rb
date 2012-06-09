@@ -4,11 +4,16 @@ require 'net/http'
 require 'result'
 require 'uri'
 
+
+SpringerResult = Struct.new :title, :abstract, :url, :date
+
+
 class Springer
   # API to Springer search API
   # 
   # Example:
-  #   >> Springer.new('[METADATA KEY]', '[IMAGES_KEY]', '[OPENACCESS_KEY]', '[Referer]').search('nano fibers')
+  #   >> Springer.new('[METADATA KEY]', '[IMAGES_KEY]', '[OPENACCESS_KEY]',
+  #       '[Referer]').search('nano fibers')
   #   => [ #<Result:...>, ... ]
   #
   # Arguments:
@@ -21,9 +26,11 @@ class Springer
   API_PATH = "http://api.springer.com/metadata/json"
   API_URI = URI.parse(API_PATH)
 
-  attr_accessor :metadata_key, :images_key, :openaccess_key, :referer, :num_results
+  attr_accessor :metadata_key, :images_key, :openaccess_key, :referer,
+      :num_results
 
-  def initialize(metadata_key, images_key='', openaccess_key='', referer='', num_results=50)
+  def initialize(metadata_key, images_key='', openaccess_key='', referer='',
+      num_results=50)
     @metadata_key = metadata_key
     @images_key = images_key
     @openaccess_key = openaccess_key
@@ -34,17 +41,18 @@ class Springer
   def search(query)
     api = API_URI
     api_call = Net::HTTP.new(api.host)
-    params = "?p=#{@num_results}&q=#{CGI.escape(query)}&api_key=#{@metadata_key}"
+    params = "?p=#{@num_results}&q=#{CGI.escape(query)}"
+    params += "&api_key=#{@metadata_key}"
     response = api_call.get2(api.path + params, { 'Referer' => @referer })
     return nil if response.class.superclass == Net::HTTPServerError
     response = JSON.parse(response.body)
     response['records'].map do |result|
-      Result.new({
-        :title => result['title'],
-        :abstract => create_abstract(result),
-        :url => result['url'],
-        :date => result['publicationDate']
-       })
+      SpringerResult.new(
+        result['title'],
+        create_abstract(result),
+        result['url'],
+        result['publicationDate']
+      )
     end
   end
 
