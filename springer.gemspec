@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'springer'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.summary     = 'API for Springer search'
   s.description = 'API for Springer search'
   s.authors     = ['Peter Lubell-Doughtie']
