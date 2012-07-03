@@ -1,7 +1,6 @@
 require 'cgi'
 require 'json'
 require 'net/http'
-require 'result'
 require 'uri'
 
 
